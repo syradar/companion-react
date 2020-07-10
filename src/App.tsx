@@ -28,13 +28,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      {characters.map((c) => (
-        <Card
-          key={c.id}
-          character={c}
-          onCharacterDelete={handleRemoveCharacter}
-        />
-      ))}
+      <main>
+        <div className="card-list">
+          {characters.map((c) => (
+            <Card
+              key={c.id}
+              character={c}
+              onCharacterDelete={handleRemoveCharacter}
+            />
+          ))}
+        </div>
+      </main>
     </div>
   );
 }
