@@ -49,19 +49,11 @@ export interface AbilityScore {
   score: number;
   modifier: number;
 }
-export interface AbilityScores {
-  strength: AbilityScore;
-  dexterity: AbilityScore;
-  constitution: AbilityScore;
-  intelligence: AbilityScore;
-  charisma: AbilityScore;
-  wisdom: AbilityScore;
-}
 
 export interface Character {
   name: string;
   id: number;
-  abilityScores?: AbilityScores;
+  abilityScores?: AbilityScore[];
 }
 
 export interface CombatParticipant extends Character {
@@ -90,14 +82,14 @@ function App() {
   const [character, setCharacter] = useState({
     id: 123,
     name: 'Wizard',
-    abilityScores: {
-      charisma: createAbilityScore('CHA', 11),
-      constitution: createAbilityScore('CON', 15),
-      dexterity: createAbilityScore('DEX', 13),
-      intelligence: createAbilityScore('INT', 19),
-      strength: createAbilityScore('STR', 9),
-      wisdom: createAbilityScore('WIS', 13),
-    },
+    abilityScores: [
+      createAbilityScore('CHA', 11),
+      createAbilityScore('CON', 15),
+      createAbilityScore('DEX', 13),
+      createAbilityScore('INT', 19),
+      createAbilityScore('STR', 9),
+      createAbilityScore('WIS', 13),
+    ],
   } as Character);
   const handleRemoveCharacter = (id: number) =>
     setCharacters((prev) => prev.filter((c) => c.id !== id));

@@ -1,14 +1,23 @@
 import React from 'react';
-import { Character, AbilityScoreTag, AbilityScores } from './App';
+import { Character, AbilityScoreTag } from './App';
+import { displaySign } from './functions';
 
 type Defense = 'PD' | 'AC' | 'MD';
-type Ability = 'INT' | 'CHA' | 'WIZ';
 type DamageType = 'Fire' | 'Frost' | 'Positive energy';
+
+interface AbilityScoreModifier {
+  tag: AbilityScoreTag;
+}
+interface FlatModifier {
+  value: number;
+}
+
+type Modifier = FlatModifier | AbilityScoreModifier;
 
 interface Dice {
   amount: number;
   size: number;
-  modifier?: number | AbilityScoreTag;
+  modifier: Modifier;
 }
 
 interface Damage extends Dice {
@@ -16,8 +25,8 @@ interface Damage extends Dice {
 }
 
 interface ToHit {
-  ability: Ability;
-  modifier?: AbilityScoreTag;
+  ability: AbilityScoreTag;
+  modifier: Modifier;
   defense: Defense;
 }
 
@@ -34,17 +43,17 @@ const spells: Spell[] = [
     id: 0,
     level: 3,
     name: 'Fireball',
-    hit: { ability: 'INT', defense: 'PD', modifier: 'INT' },
-    damage: [{ amount: 10, size: 6, modifier: 'INT', type: 'Fire' }],
+    hit: { ability: 'INT', defense: 'PD', modifier: { tag: 'INT' } },
+    damage: [{ amount: 10, size: 6, modifier: { value: 0 }, type: 'Fire' }],
   },
   {
     id: 0,
     level: 1,
     name: 'Smite',
-    hit: { ability: 'WIZ', defense: 'AC', modifier: 'WIS' },
+    hit: { ability: 'WIS', defense: 'AC', modifier: { tag: 'WIS' } },
     damage: [
-      { amount: 2, size: 8, modifier: 'WIS', type: 'Positive energy' },
-      { amount: 1, size: 4, modifier: 'WIS', type: 'Fire' },
+      { amount: 2, size: 8, modifier: { tag: 'WIS' }, type: 'Positive energy' },
+      { amount: 1, size: 4, modifier: { value: 12 }, type: 'Fire' },
     ],
   },
 ];
@@ -53,12 +62,10 @@ interface SpellbookPageProps {
   character: Character;
 }
 
+const isFlatModifier = (m: Modifier): m is FlatModifier =>
+  (m as FlatModifier).value !== undefined;
+
 function SpellbookPage({ character }: SpellbookPageProps) {
-  console.log(
-    Object.values(character.abilityScores as AbilityScores).find(
-      (value) => value.tag === spells[0].hit.modifier
-    ).modifier
-  );
   return (
     <section>
       <h1>Spellbook for</h1>
@@ -69,40 +76,18 @@ function SpellbookPage({ character }: SpellbookPageProps) {
         <table>
           <thead>
             <tr>
-              <th>{character.abilityScores?.strength.tag}</th>
-              <th>{character.abilityScores?.constitution.tag}</th>
-              <th>{character.abilityScores?.dexterity.tag}</th>
-              <th>{character.abilityScores?.intelligence.tag}</th>
-              <th>{character.abilityScores?.wisdom.tag}</th>
-              <th>{character.abilityScores?.charisma.tag}</th>
+              {character.abilityScores?.map((as) => (
+                <th>{as.tag}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
-                {character.abilityScores?.strength.score} (
-                {character.abilityScores?.strength.modifier})
-              </td>
-              <td>
-                {character.abilityScores?.constitution.score} (
-                {character.abilityScores?.constitution.modifier})
-              </td>
-              <td>
-                {character.abilityScores?.dexterity.score} (
-                {character.abilityScores?.dexterity.modifier})
-              </td>
-              <td>
-                {character.abilityScores?.intelligence.score} (
-                {character.abilityScores?.intelligence.modifier})
-              </td>
-              <td>
-                {character.abilityScores?.wisdom.score} (
-                {character.abilityScores?.wisdom.modifier})
-              </td>
-              <td>
-                {character.abilityScores?.charisma.score} (
-                {character.abilityScores?.charisma.modifier})
-              </td>
+              {character.abilityScores?.map((as) => (
+                <td>
+                  {as.score}({displaySign(as.modifier) + as.modifier})
+                </td>
+              ))}
             </tr>
           </tbody>
         </table>
@@ -129,16 +114,19 @@ function SpellbookPage({ character }: SpellbookPageProps) {
               <td>{s.name}</td>
               <td>
                 {s.hit.ability}{' '}
-                {Object.values(character.abilityScores as AbilityScores).find(
-                  (value) => value.tag === s.hit.modifier
-                ).modifier >= 0
-                  ? '+ '
-                  : ''}
-                {
-                  Object.values(character.abilityScores as AbilityScores).find(
-                    (value) => value.tag === s.hit.modifier
-                  ).modifier
-                }
+                {displaySign(
+                  character.abilityScores?.find(
+                    (value) =>
+                      value.tag === (s.hit.modifier as AbilityScoreModifier).tag
+                  )?.modifier ?? 0
+                )}
+                {isFlatModifier(s.hit.modifier)
+                  ? s.hit.modifier
+                  : character.abilityScores?.find(
+                      (value) =>
+                        value.tag ===
+                        (s.hit.modifier as AbilityScoreModifier).tag
+                    )?.modifier}
                 {' vs. '}
                 {s.hit.defense}
               </td>
@@ -146,16 +134,22 @@ function SpellbookPage({ character }: SpellbookPageProps) {
                 {s.damage.map((d) => (
                   <>
                     {d.amount}D{d.size}{' '}
-                    {Object.values(
-                      character.abilityScores as AbilityScores
-                    ).find((value) => value.tag === d.modifier).modifier >= 0
-                      ? '+ '
-                      : ''}
-                    {
-                      Object.values(
-                        character.abilityScores as AbilityScores
-                      ).find((value) => value.tag === d.modifier).modifier
-                    }{' '}
+                    {displaySign(
+                      isFlatModifier(d.modifier)
+                        ? (d.modifier as FlatModifier).value
+                        : character.abilityScores?.find(
+                            (value) =>
+                              value.tag ===
+                              (d.modifier as AbilityScoreModifier).tag
+                          )?.modifier ?? 0
+                    )}{' '}
+                    {isFlatModifier(d.modifier)
+                      ? (d.modifier as FlatModifier).value
+                      : character.abilityScores?.find(
+                          (value) =>
+                            value.tag ===
+                            (d.modifier as AbilityScoreModifier).tag
+                        )?.modifier}{' '}
                     {d.type}
                     {', '}
                   </>
