@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import { Character } from './App';
+import { CombatParticipant } from './App';
 
 interface CardProps {
-  character: Character;
+  character: CombatParticipant;
   onCharacterDelete: (id: number) => void;
 }
 
