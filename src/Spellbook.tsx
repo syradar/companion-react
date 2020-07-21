@@ -1,9 +1,7 @@
 import React from 'react';
-import { Character, AbilityScoreTag } from './App';
+import { Character, Defense, DamageType } from './App';
 import { displaySign } from './functions';
-
-type Defense = 'PD' | 'AC' | 'MD';
-type DamageType = 'Fire' | 'Frost' | 'Positive energy';
+import { AbilityScoreTag } from './abilityScores';
 
 interface AbilityScoreModifier {
   tag: AbilityScoreTag;
