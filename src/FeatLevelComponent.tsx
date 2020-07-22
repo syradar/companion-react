@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { FeatLevel } from './races';
+import { FeatLevel } from './models/races';
 
 function FeatLevelComponent({ featLevel, description }: FeatLevel) {
   return (

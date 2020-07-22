@@ -3,18 +3,15 @@ import { jsx } from '@emotion/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css } from 'twin.macro';
 import { Fragment } from 'react';
-import { Race } from '../../models/races';
 import { Machine } from 'xstate';
 import { useMachine } from '@xstate/react';
 import SeparatedList from '../../SeparatedList';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
-import Paragraphs from '../../Paragraphs';
-import FeatListComponent from '../../FeatListComponent';
 import { h3Style, btnSecondary } from '../../styles/globalStyles';
-import Heading from '../heading';
+import { PlayerClass } from '../../models/classes';
 
-interface RaceCardProps {
-  race: Race;
+interface ClassCardProps {
+  playerClass: PlayerClass;
 }
 
 const toggleMachine = Machine({
@@ -40,40 +37,32 @@ const toggleCss = css`
   }
 `;
 
-function RaceCard({ race }: RaceCardProps) {
+function ClassCard({ playerClass }: ClassCardProps) {
   const [state, send] = useMachine(toggleMachine);
   return (
     <div tw="flex flex-col">
       <div tw="flex justify-between ">
-        <Heading lvl={3}>{race.name}</Heading>
+        <div tw="flex font-bold">{playerClass.name}</div>
         <button css={[btnSecondary]} onClick={() => send('TOGGLE')}>
           {state.matches('inactive') ? 'Show' : 'Hide'}
         </button>
       </div>
-      <div aria-expanded={state.matches('active')} css={[toggleCss]}>
+      <div aria-expanded={!state.matches('active')} css={[toggleCss]}>
         <h3 css={[h3Style]}>Racial Bonus</h3>
         <SeparatedList
           separator={' or '}
-          values={race.bonus}
+          values={playerClass.bonus}
           display={v => (
             <Fragment>
               <DisplayModifierComponent value={v.value} /> {v.tag}
             </Fragment>
           )}
         />
-        {race.power.map((p, index) => (
-          <Fragment key={index}>
-            <h3 css={[h3Style]}>{p.name}</h3>
-            {p.description && <Paragraphs paragraphs={p.description} />}
-            <FeatListComponent feats={p.feats} />
-          </Fragment>
-        ))}
-
-        <h3 css={[h3Style]}>Racial Feats</h3>
-        <FeatListComponent feats={race.feats} />
+        <h3 css={[h3Style]}>Backgrounds</h3>
+        <p>{playerClass.backgroundsExample}</p>
       </div>
     </div>
   );
 }
 
-export default RaceCard;
+export default ClassCard;

@@ -1,6 +1,6 @@
 import { Nameable, FeatHaver, FeatLevel, Describeable } from './races';
-import { Dice, ToHit } from './Spellbook';
-import { DamageType, Defense } from './App';
+import { Dice, ToHit } from '../Spellbook';
+import { DamageType, Defense } from '../App';
 import { AbilityScoreTag } from './abilityScores';
 
 export type RangeTypes = 'Close-quarters spell' | 'Ranged' | 'Melee';

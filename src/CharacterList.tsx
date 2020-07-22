@@ -1,23 +1,22 @@
 /** @jsx jsx */
-import React, { Fragment } from 'react'
-import { jsx } from '@emotion/core'
-import tw, { css } from 'twin.macro'
-import './App.css'
-import { useRouteMatch, Link, Switch, Route } from 'react-router-dom'
-import CreateCharacter from './CreateCharacter'
-import { h1Style, btnPrimary } from './styles/globalStyles'
-import { playSound } from './bard'
-import useSound from 'use-sound'
-//import levelUp from './320655__rhodesmas__level-up-01.ogg'
+import { jsx } from '@emotion/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import tw, { css } from 'twin.macro';
+import './App.css';
+import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
+import CreateCharacter from './CreateCharacter';
+import { h1Style, btnPrimary } from './styles/globalStyles';
+import useSound from 'use-sound';
 
 function CharacterList() {
-  let match = useRouteMatch()
+  let match = useRouteMatch();
+
   const [playLevelUp] = useSound(
-    require('./320655__rhodesmas__level-up-01.ogg'),
+    require('./sounds/320655__rhodesmas__level-up-01.ogg'),
     {
       volume: 0.5,
     },
-  )
+  );
 
   return (
     <Switch>
@@ -34,19 +33,13 @@ function CharacterList() {
           New character
         </Link>
         <ul>
-          <li>
-            <a href="#">Elorin - Wizard LVL 4</a>
-          </li>
-          <li>
-            <a href="#">Kark - Barbarian LVL 3</a>
-          </li>
-          <li>
-            <a href="#">Velatha - Rogue LVL 6</a>
-          </li>
+          <li>Elorin - Wizard LVL 4</li>
+          <li>Kark - Barbarian LVL 3</li>
+          <li>Velatha - Rogue LVL 6</li>
         </ul>
       </Route>
     </Switch>
-  )
+  );
 }
 
-export default CharacterList
+export default CharacterList;

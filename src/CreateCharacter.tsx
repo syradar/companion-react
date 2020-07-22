@@ -1,42 +1,60 @@
 /** @jsx jsx */
-import React, { Fragment } from 'react'
-import tw, { css } from 'twin.macro'
-import { jsx } from '@emotion/core'
+import { Fragment, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import tw, { css } from 'twin.macro';
+import { jsx } from '@emotion/core';
 
-import './App.css'
-import { useRouteMatch, Link } from 'react-router-dom'
-import { playerRaces } from './races'
-import SeparatedList from './SeparatedList'
-import DisplayModifierComponent from './DisplayModifierComponent'
-import FeatListComponent from './FeatListComponent'
-import Paragraphs from './Paragraphs'
-import {
-  ModifyCharacterStep,
-  defaultModifyCharacterSteps,
-} from './characterModification'
-import CharacterModificationStep from './CharacterModificationStep'
-import { h1Style } from './styles/globalStyles'
+import './App.css';
+//import { useRouteMatch } from 'react-router-dom';
+import { h1Style } from './styles/globalStyles';
+import ChooseRace from './components/character/chooseRace';
+import ChooseClass from './components/character/chooseClass';
+import { AbilityScoreBonus, Race } from './models/races';
+import Heading from './components/heading';
+import { PlayerClass } from './models/classes';
+import { pluck } from 'rambda';
+import { AbilityScoreTag } from './models/abilityScores';
 
 function CreateCharacter() {
-  let match = useRouteMatch()
+  //let match = useRouteMatch();
 
-  const steps: ModifyCharacterStep[] = [...defaultModifyCharacterSteps]
+  const handleChoice = (bonus: AbilityScoreBonus) => {
+    setAbilityScoreBonus(prev => {
+      const bonuses = [...prev, bonus];
+      setTakenAbilityScoreBonuses(_ => pluck('tag', bonuses));
+      return bonuses;
+    });
+  };
 
-  const handleChoice = (data: {}) => console.log(data)
+  const [abilityScoreBonus, setAbilityScoreBonus] = useState<
+    AbilityScoreBonus[]
+  >([]);
+
+  const [takenAbilityScoreBonuses, setTakenAbilityScoreBonuses] = useState<
+    AbilityScoreTag[]
+  >([]);
 
   return (
     <Fragment>
       <h1 css={[h1Style]}>Create Character</h1>
-
-      {steps.map((s, index) => (
-        <CharacterModificationStep
-          key={index}
-          name={s.name}
-          onChoice={handleChoice}
-        />
+      <Heading lvl={2}>Ability Score Bonus Choices</Heading>
+      {abilityScoreBonus.map((asb, index) => (
+        <div key={index}>
+          {asb.tag} {asb.value}
+        </div>
       ))}
+      <ChooseRace
+        name={'Choose race'}
+        onChoice={handleChoice}
+        takenAbilityScoreBonuses={takenAbilityScoreBonuses}
+      />
+      <ChooseClass
+        name={'Choose class'}
+        onChoice={handleChoice}
+        takenAbilityScoreBonuses={takenAbilityScoreBonuses}
+      />
     </Fragment>
-  )
+  );
 }
 
-export default CreateCharacter
+export default CreateCharacter;

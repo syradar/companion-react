@@ -3,7 +3,7 @@ import './App.css';
 
 interface SeparatedListProps<T> {
   separator: string;
-  values: T[];
+  values: T[] | T;
   display: (value: T) => JSX.Element;
 }
 
@@ -12,14 +12,20 @@ function SeparatedList<T>({
   values,
   display,
 }: SeparatedListProps<T>) {
+  if (values == null) return null;
+
   return (
     <Fragment>
-      {values.map((value, index) => (
-        <Fragment key={index}>
-          {index > 0 && separator}
-          {display(value)}
-        </Fragment>
-      ))}
+      {Array.isArray(values) ? (
+        values.map((value, index) => (
+          <Fragment key={index}>
+            {index > 0 && separator}
+            {display(value)}
+          </Fragment>
+        ))
+      ) : (
+        <Fragment>{display(values)}</Fragment>
+      )}
     </Fragment>
   );
 }

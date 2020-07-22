@@ -1,5 +1,3 @@
-import { Nameable } from './races';
-
 export interface ModifyCharacterStep {
   name: string;
 }

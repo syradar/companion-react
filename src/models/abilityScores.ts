@@ -5,6 +5,7 @@ export enum AbilityScoreTag {
   INT = 'Intelligence',
   STR = 'Strength',
   WIS = 'Wisdom',
+  None = '',
 }
 
 export const createAbilityScore = (tag: AbilityScoreTag, score: number) => {

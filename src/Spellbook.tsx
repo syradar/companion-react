@@ -1,7 +1,7 @@
 import React from 'react';
 import { Character, Defense, DamageType } from './App';
 import { displaySign } from './functions';
-import { AbilityScoreTag } from './abilityScores';
+import { AbilityScoreTag } from './models/abilityScores';
 
 export interface AbilityScoreModifier {
   tag: AbilityScoreTag;
@@ -92,14 +92,14 @@ function SpellbookPage({ character }: SpellbookPageProps) {
         <table>
           <thead>
             <tr>
-              {character.abilityScores?.map((as) => (
+              {character.abilityScores?.map(as => (
                 <th>{as.tag}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             <tr>
-              {character.abilityScores?.map((as) => (
+              {character.abilityScores?.map(as => (
                 <td>
                   {as.score}({displaySign(as.modifier) + as.modifier})
                 </td>
@@ -124,7 +124,7 @@ function SpellbookPage({ character }: SpellbookPageProps) {
           </tr>
         </thead>
         <tbody>
-          {spells.map((s) => (
+          {spells.map(s => (
             <tr>
               <td>{s.level}</td>
               <td>{s.name}</td>
@@ -132,39 +132,40 @@ function SpellbookPage({ character }: SpellbookPageProps) {
                 {s.hit.ability}{' '}
                 {displaySign(
                   character.abilityScores?.find(
-                    (value) =>
-                      value.tag === (s.hit.modifier as AbilityScoreModifier).tag
-                  )?.modifier ?? 0
+                    value =>
+                      value.tag ===
+                      (s.hit.modifier as AbilityScoreModifier).tag,
+                  )?.modifier ?? 0,
                 )}
                 {isFlatModifier(s.hit.modifier)
                   ? s.hit.modifier
                   : character.abilityScores?.find(
-                      (value) =>
+                      value =>
                         value.tag ===
-                        (s.hit.modifier as AbilityScoreModifier).tag
+                        (s.hit.modifier as AbilityScoreModifier).tag,
                     )?.modifier}
                 {' vs. '}
                 {s.hit.defense}
               </td>
               <td>
-                {s.damage.map((d) => (
+                {s.damage.map(d => (
                   <>
                     {d.amount}D{d.size}{' '}
                     {displaySign(
                       isFlatModifier(d.modifier)
                         ? (d.modifier as FlatModifier).value
                         : character.abilityScores?.find(
-                            (value) =>
+                            value =>
                               value.tag ===
-                              (d.modifier as AbilityScoreModifier).tag
-                          )?.modifier ?? 0
+                              (d.modifier as AbilityScoreModifier).tag,
+                          )?.modifier ?? 0,
                     )}{' '}
                     {isFlatModifier(d.modifier)
                       ? (d.modifier as FlatModifier).value
                       : character.abilityScores?.find(
-                          (value) =>
+                          value =>
                             value.tag ===
-                            (d.modifier as AbilityScoreModifier).tag
+                            (d.modifier as AbilityScoreModifier).tag,
                         )?.modifier}{' '}
                     {d.type}
                     {', '}

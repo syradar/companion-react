@@ -2,25 +2,26 @@
 import { jsx } from '@emotion/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css } from 'twin.macro';
-import { h2Style, btnPrimary } from '../../styles/globalStyles';
-import { playerRaces, Race, AbilityScoreBonus } from '../../models/races';
+import { btnPrimary } from '../../styles/globalStyles';
 import { Machine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
-import RaceCard from './raceCard';
 import { Fragment } from 'react';
+import { classes, PlayerClass } from '../../models/classes';
+import ClassCard from './classCard';
 import Heading from '../heading';
-import Paragraphs from '../../Paragraphs';
-import DisplayModifierComponent from '../../DisplayModifierComponent';
+import { AbilityScoreBonus } from '../../models/races';
 import { AbilityScoreTag } from '../../models/abilityScores';
+import DisplayModifierComponent from '../../DisplayModifierComponent';
+import { prop } from 'rambda';
 
-interface ChooseRaceProps {
+interface ChooseClassProps {
   name: string;
   onChoice: (bonus: AbilityScoreBonus) => void;
   takenAbilityScoreBonuses: AbilityScoreTag[];
 }
 
 interface ChoiceContext {
-  data: Race | undefined;
+  data: PlayerClass | undefined;
   bonus: AbilityScoreBonus | undefined;
 }
 
@@ -34,7 +35,7 @@ const choiceMachine = Machine<ChoiceContext>({
   states: {
     idle: {
       on: {
-        RACE_CHOSEN: {
+        CLASS_CHOSEN: {
           target: 'chooseBonus',
           actions: assign({
             data: (context, event) => (context.data = event.data),
@@ -59,11 +60,11 @@ const choiceMachine = Machine<ChoiceContext>({
   },
 });
 
-function ChooseRace({
+function ChooseClass({
   name,
   onChoice,
   takenAbilityScoreBonuses,
-}: ChooseRaceProps) {
+}: ChooseClassProps) {
   const [state, send] = useMachine(choiceMachine, {
     actions: {
       notifyChoice: ctx => onChoice(ctx.bonus as AbilityScoreBonus),
@@ -75,13 +76,13 @@ function ChooseRace({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          {playerRaces.map((pr, index) => (
+          {classes.map((c, index) => (
             <div key={index} tw="rounded shadow-lg p-4 mb-4">
-              <RaceCard race={pr}></RaceCard>
+              <ClassCard playerClass={c} />
 
               <button
                 css={[btnPrimary]}
-                onClick={() => send('RACE_CHOSEN', { data: pr })}
+                onClick={() => send('CLASS_CHOSEN', { data: c })}
               >
                 Choose
               </button>
@@ -96,10 +97,9 @@ function ChooseRace({
           <div tw="rounded shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <p tw="mb-4">Choose Ability Score Bonus:</p>
-            {takenAbilityScoreBonuses.forEach(console.log)}
+
             {state.context.data?.bonus
               .filter(b => !takenAbilityScoreBonuses.includes(b.tag))
-
               .map((b, index) => (
                 <button
                   css={[btnPrimary, tw`mr-4`]}
@@ -114,24 +114,13 @@ function ChooseRace({
       );
     case 'chosen':
       return (
-        <Fragment>
-          <Heading lvl={2}>{name}</Heading>
-          <div tw="rounded shadow-lg p-4 mb-4">
-            <Heading lvl={3}>{state.context.data?.name}</Heading>
-
-            <div>
-              {state.context.bonus?.tag}{' '}
-              <DisplayModifierComponent
-                value={state.context.bonus?.value ?? 0}
-              />
-            </div>
-          </div>
-        </Fragment>
+        <div tw="rounded shadow-lg p-4 mb-4">
+          <ClassCard playerClass={state.context.data as PlayerClass} />
+        </div>
       );
-
     default:
       return null;
   }
 }
 
-export default ChooseRace;
+export default ChooseClass;

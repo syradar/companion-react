@@ -77,7 +77,11 @@ export const playerRaces: Race[] = [
   {
     name: 'Human',
     bonus: [
+      { tag: AbilityScoreTag.STR, value: 2 },
       { tag: AbilityScoreTag.DEX, value: 2 },
+      { tag: AbilityScoreTag.CON, value: 2 },
+      { tag: AbilityScoreTag.INT, value: 2 },
+      { tag: AbilityScoreTag.CHA, value: 2 },
       { tag: AbilityScoreTag.WIS, value: 2 },
     ],
     feats: [
