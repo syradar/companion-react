@@ -1,35 +1,15 @@
-export type AbilityScoreName =
-  | 'Charisma'
-  | 'Constitution'
-  | 'Dexterity'
-  | 'Intelligence'
-  | 'Strength'
-  | 'Wisdom';
-
-export type AbilityScoreTag = 'CHA' | 'CON' | 'DEX' | 'INT' | 'STR' | 'WIS';
-
-export const abilityScoreNameFromTag = (
-  tag: AbilityScoreTag
-): AbilityScoreName => {
-  switch (tag) {
-    case 'CHA':
-      return 'Charisma';
-    case 'CON':
-      return 'Constitution';
-    case 'DEX':
-      return 'Dexterity';
-    case 'INT':
-      return 'Intelligence';
-    case 'STR':
-      return 'Strength';
-    case 'WIS':
-      return 'Wisdom';
-  }
-};
+export enum AbilityScoreTag {
+  CHA = 'Charisma',
+  CON = 'Constitution',
+  DEX = 'Dexterity',
+  INT = 'Intelligence',
+  STR = 'Strength',
+  WIS = 'Wisdom',
+}
 
 export const createAbilityScore = (tag: AbilityScoreTag, score: number) => {
   return {
-    name: abilityScoreNameFromTag(tag),
+    name: tag,
     tag,
     score,
     modifier: abilityModifier(score),
@@ -37,7 +17,6 @@ export const createAbilityScore = (tag: AbilityScoreTag, score: number) => {
 };
 
 export interface AbilityScore {
-  name: AbilityScoreName;
   tag: AbilityScoreTag;
   score: number;
   modifier: number;

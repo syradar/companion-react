@@ -1,17 +1,27 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { AbilityScore, createAbilityScore } from './abilityScores';
-import { playerRaces } from './races';
-import FeatListComponent from './FeatListComponent';
-import DisplayModifierComponent from './DisplayModifierComponent';
-import Paragraphs from './Paragraphs';
-import SeparatedList from './SeparatedList';
+import {
+  AbilityScore,
+  createAbilityScore,
+  AbilityScoreTag,
+} from './abilityScores';
 import CharacterList from './CharacterList';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import CreateCharacter from './CreateCharacter';
 
-export type Defense = 'PD' | 'AC' | 'MD';
-export type DamageType = 'Fire' | 'Frost' | 'Positive energy';
+export enum Defense {
+  AC = 'Armor Class',
+  MD = 'Mental Defense',
+  PD = 'Physical Defense',
+}
+
+export enum DamageType {
+  Fire = 'Fire',
+  Frost = 'Frost',
+  Positive = 'Positive energy',
+  Force = 'Force',
+  Cold = 'Cold',
+  None = '',
+}
 
 export interface Character {
   name: string;
@@ -24,7 +34,7 @@ export interface CombatParticipant extends Character {
 }
 
 function App() {
-  const [, setCharacters] = useState([
+  const [] = useState([
     {
       name: `scanlan`,
       id: 0,
@@ -46,12 +56,12 @@ function App() {
     id: 123,
     name: 'Wizard',
     abilityScores: [
-      createAbilityScore('CHA', 11),
-      createAbilityScore('CON', 15),
-      createAbilityScore('DEX', 13),
-      createAbilityScore('INT', 19),
-      createAbilityScore('STR', 9),
-      createAbilityScore('WIS', 13),
+      createAbilityScore(AbilityScoreTag.CHA, 11),
+      createAbilityScore(AbilityScoreTag.CON, 15),
+      createAbilityScore(AbilityScoreTag.DEX, 13),
+      createAbilityScore(AbilityScoreTag.INT, 19),
+      createAbilityScore(AbilityScoreTag.STR, 9),
+      createAbilityScore(AbilityScoreTag.WIS, 13),
     ],
   } as Character);
 

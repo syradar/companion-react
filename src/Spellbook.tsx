@@ -3,32 +3,33 @@ import { Character, Defense, DamageType } from './App';
 import { displaySign } from './functions';
 import { AbilityScoreTag } from './abilityScores';
 
-interface AbilityScoreModifier {
+export interface AbilityScoreModifier {
   tag: AbilityScoreTag;
 }
-interface FlatModifier {
+export interface FlatModifier {
   value: number;
 }
 
-type Modifier = FlatModifier | AbilityScoreModifier;
+export type Modifier = FlatModifier | AbilityScoreModifier;
 
-interface Dice {
+export interface Dice {
   amount: number;
   size: number;
   modifier: Modifier;
 }
 
-interface Damage extends Dice {
+export interface Damage extends Dice {
   type: DamageType;
 }
 
-interface ToHit {
+export interface ToHit {
   ability: AbilityScoreTag;
   modifier: Modifier;
   defense: Defense;
+  addLevel: boolean;
 }
 
-interface Spell {
+interface testspell {
   id: number;
   level: number;
   name: string;
@@ -36,22 +37,39 @@ interface Spell {
   damage: Damage[];
 }
 
-const spells: Spell[] = [
+const spells: testspell[] = [
   {
     id: 0,
     level: 3,
     name: 'Fireball',
-    hit: { ability: 'INT', defense: 'PD', modifier: { tag: 'INT' } },
-    damage: [{ amount: 10, size: 6, modifier: { value: 0 }, type: 'Fire' }],
+    hit: {
+      ability: AbilityScoreTag.INT,
+      defense: Defense.PD,
+      modifier: { tag: AbilityScoreTag.INT },
+      addLevel: false,
+    },
+    damage: [
+      { amount: 10, size: 6, modifier: { value: 0 }, type: DamageType.Fire },
+    ],
   },
   {
     id: 0,
     level: 1,
     name: 'Smite',
-    hit: { ability: 'WIS', defense: 'AC', modifier: { tag: 'WIS' } },
+    hit: {
+      ability: AbilityScoreTag.WIS,
+      defense: Defense.AC,
+      modifier: { tag: AbilityScoreTag.WIS },
+      addLevel: false,
+    },
     damage: [
-      { amount: 2, size: 8, modifier: { tag: 'WIS' }, type: 'Positive energy' },
-      { amount: 1, size: 4, modifier: { value: 12 }, type: 'Fire' },
+      {
+        amount: 2,
+        size: 8,
+        modifier: { tag: AbilityScoreTag.WIS },
+        type: DamageType.Positive,
+      },
+      { amount: 1, size: 4, modifier: { value: 12 }, type: DamageType.Fire },
     ],
   },
 ];

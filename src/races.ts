@@ -38,8 +38,8 @@ export const playerRaces: Race[] = [
   {
     name: 'Wood elf',
     bonus: [
-      { tag: 'DEX', value: 2 },
-      { tag: 'WIS', value: 2 },
+      { tag: AbilityScoreTag.DEX, value: 2 },
+      { tag: AbilityScoreTag.WIS, value: 2 },
     ],
     feats: [
       {
