@@ -37,7 +37,7 @@ function App() {
   return (
     <Router>
       <div css={['App']}>
-        <nav tw="flex items-center justify-between flex-wrap bg-blue-500 text-white p-6">
+        <nav tw="flex items-center justify-between flex-wrap bg-gray-700 text-white p-6 shadow-lg">
           <ul tw="flex items-center justify-between flex-wrap">
             <li tw="mr-4">
               <Link tw="text-xl font-bold hover:text-black" to="/">

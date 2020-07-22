@@ -76,7 +76,7 @@ function ChooseRace({
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
           {playerRaces.map((pr, index) => (
-            <div key={index} tw="bg-white rounded shadow-lg p-4 mb-4">
+            <div key={index} tw="bg-white rounded-xl shadow-lg p-4 mb-4">
               <RaceCard race={pr}></RaceCard>
 
               <button
@@ -93,7 +93,7 @@ function ChooseRace({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          <div tw="bg-white rounded shadow-lg p-4 mb-4">
+          <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <p tw="mb-4">Choose Ability Score Bonus:</p>
             {takenAbilityScoreBonuses.forEach(console.log)}
@@ -116,7 +116,7 @@ function ChooseRace({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          <div tw="bg-white rounded shadow-lg p-4 mb-4">
+          <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
 
             <div>

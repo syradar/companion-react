@@ -90,7 +90,7 @@ function ChooseClass({
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
           {classes.map((c, index) => (
-            <div key={index} tw="bg-white rounded shadow-lg p-4 mb-4">
+            <div key={index} tw="bg-white rounded-xl shadow-lg p-4 mb-4">
               <ClassCard playerClass={c} />
 
               <button
@@ -107,7 +107,7 @@ function ChooseClass({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          <div tw="bg-white rounded shadow-lg p-4 mb-4">
+          <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <p tw="mb-4">Choose Ability Score Bonus:</p>
 
@@ -129,7 +129,7 @@ function ChooseClass({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          <div tw="bg-white rounded shadow-lg p-4 mb-4">
+          <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <div tw="mb-4">
               {state.context.bonus?.tag}{' '}
@@ -165,7 +165,7 @@ function ChooseClass({
       );
     case 'chosen':
       return (
-        <div tw="bg-white rounded shadow-lg p-4 mb-4">
+        <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
           <ClassCard playerClass={state.context.data as PlayerClass} />
           <div tw="mb-4">
             {state.context.bonus?.tag}{' '}
