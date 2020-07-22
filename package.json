@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@tailwindcss/typography": "^0.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -11,13 +14,16 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
+    "@xstate/react": "^0.8.1",
     "fp-ts": "^2.7.0",
     "rambda": "^5.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2"
+    "twin.macro": "^1.6.0",
+    "typescript": "~3.7.2",
+    "xstate": "^4.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,5 +45,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "babelMacros": {
+    "twin": {
+      "config": "src/tailwind.config.js",
+      "preset": "emotion",
+      "autoCssProp": true,
+      "hasSuggestions": true,
+      "debugProp": true,
+      "debugPlugins": false,
+      "debug": false
+    }
+  },
+  "devDependencies": {
+    "tailwindcss": "^1.5.2",
+    "typescript-plugin-tw-template": "^2.0.1"
   }
 }

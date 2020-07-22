@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import './App.css';
+/** @jsx jsx */
+import React, { useState } from 'react'
+import './App.css'
 import {
   AbilityScore,
   createAbilityScore,
   AbilityScoreTag,
-} from './abilityScores';
-import CharacterList from './CharacterList';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+} from './abilityScores'
+import CharacterList from './CharacterList'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import tw, { css, styled } from 'twin.macro'
+import 'tailwindcss/dist/base.min.css'
+import { jsx } from '@emotion/core'
 
 export enum Defense {
   AC = 'Armor Class',
@@ -24,13 +28,13 @@ export enum DamageType {
 }
 
 export interface Character {
-  name: string;
-  id: number;
-  abilityScores?: AbilityScore[];
+  name: string
+  id: number
+  abilityScores?: AbilityScore[]
 }
 
 export interface CombatParticipant extends Character {
-  initiative: number;
+  initiative: number
 }
 
 function App() {
@@ -50,7 +54,7 @@ function App() {
       id: 2,
       initiative: 20,
     },
-  ] as CombatParticipant[]);
+  ] as CombatParticipant[])
 
   const [] = useState({
     id: 123,
@@ -63,25 +67,26 @@ function App() {
       createAbilityScore(AbilityScoreTag.STR, 9),
       createAbilityScore(AbilityScoreTag.WIS, 13),
     ],
-  } as Character);
+  } as Character)
 
   return (
     <Router>
-      <div className="App">
-        <header className="App-header">
-          <h1>Companion</h1>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/characters">Characters</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <main>
+      <div css={['App']}>
+        <nav tw="flex items-center justify-between flex-wrap bg-blue-500 text-white p-6 mb-6">
+          <ul tw="flex items-center justify-between flex-wrap">
+            <li tw="mr-4">
+              <Link tw="text-xl font-bold hover:text-black" to="/">
+                Companion
+              </Link>
+            </li>
+            <li>
+              <Link tw="hover:text-black" to="/characters">
+                Characters
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <main tw="px-4">
           <Switch>
             <Route path="/characters">
               <CharacterList />
@@ -106,11 +111,11 @@ function App() {
         </main>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
 
 function Home() {
-  return <h2>Home</h2>;
+  return <h2>Home</h2>
 }
