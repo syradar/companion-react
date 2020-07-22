@@ -51,7 +51,7 @@ function App() {
             </li>
           </ul>
         </nav>
-        <main tw="p-4">
+        <main tw="py-4 px-2 sm:px-4">
           <Switch>
             <Route path="/characters">
               <CharacterList />
