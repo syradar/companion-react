@@ -47,7 +47,7 @@ function ClassCard({ playerClass }: ClassCardProps) {
           {state.matches('inactive') ? 'Show' : 'Hide'}
         </button>
       </div>
-      <div aria-expanded={!state.matches('active')} css={[toggleCss]}>
+      <div aria-expanded={state.matches('active')} css={[toggleCss]}>
         <h3 css={[h3Style]}>Racial Bonus</h3>
         <SeparatedList
           separator={' or '}

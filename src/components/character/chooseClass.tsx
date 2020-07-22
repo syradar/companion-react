@@ -166,13 +166,12 @@ function ChooseClass({
     case 'chosen':
       return (
         <div tw="rounded shadow-lg p-4 mb-4">
-          {console.log(state.context)}
+          <ClassCard playerClass={state.context.data as PlayerClass} />
           <div tw="mb-4">
             {state.context.bonus?.tag}{' '}
             <DisplayModifierComponent value={state.context.bonus?.value ?? 0} />
           </div>
           <div tw="mb-4">Starting gold: {state.context.money.gp} gp</div>
-          <ClassCard playerClass={state.context.data as PlayerClass} />
         </div>
       );
     default:
