@@ -37,7 +37,7 @@ function App() {
   return (
     <Router>
       <div css={['App']}>
-        <nav tw="flex items-center justify-between flex-wrap bg-blue-500 text-white p-6 mb-6">
+        <nav tw="flex items-center justify-between flex-wrap bg-blue-500 text-white p-6">
           <ul tw="flex items-center justify-between flex-wrap">
             <li tw="mr-4">
               <Link tw="text-xl font-bold hover:text-black" to="/">
@@ -51,7 +51,7 @@ function App() {
             </li>
           </ul>
         </nav>
-        <main tw="px-4">
+        <main tw="p-4">
           <Switch>
             <Route path="/characters">
               <CharacterList />
