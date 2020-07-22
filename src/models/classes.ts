@@ -7,8 +7,14 @@ export interface PlayerClass extends Nameable {
   bonus: AbilityScoreBonus[];
   backgroundsExample: string;
   money: {
-    static: () => CoinPurse;
-    random: () => CoinPurse;
+    static: {
+      name: string;
+      get: () => CoinPurse;
+    };
+    random: {
+      name: string;
+      get: () => CoinPurse;
+    };
   };
 }
 
@@ -28,8 +34,14 @@ export const classes: PlayerClass[] = [
     backgroundsExample:
       'Possible backgrounds include: clan champion, caravan outrider, fur trapper, mountain tribeswoman, wasteland survivalist, and gladiator.',
     money: {
-      static: () => coinPurse({ gp: 25 }),
-      random: () => coinPurse({ gp: rollD6() * 10 }),
+      static: {
+        name: '25 gp',
+        get: () => coinPurse({ gp: 25 }),
+      },
+      random: {
+        name: '1d6 x 10 gp',
+        get: () => coinPurse({ gp: rollD6() * 10 }),
+      },
     },
   },
   {
@@ -47,8 +59,14 @@ export const classes: PlayerClass[] = [
     backgroundsExample:
       'Possible backgrounds include: city guardsman, combat medic, bodyguard, outlaw hunter, and inquisitor.',
     money: {
-      static: () => coinPurse({ gp: 25 }),
-      random: () => coinPurse({ gp: rollD6() * 10 }),
+      static: {
+        name: '25 gp',
+        get: () => coinPurse({ gp: 25 }),
+      },
+      random: {
+        name: '1d6 x 10 gp',
+        get: () => coinPurse({ gp: rollD6() * 10 }),
+      },
     },
   },
 ];

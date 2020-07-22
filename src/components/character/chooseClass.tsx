@@ -13,6 +13,7 @@ import { AbilityScoreBonus } from '../../models/races';
 import { AbilityScoreTag } from '../../models/abilityScores';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
 import { prop } from 'rambda';
+import { CoinPurse, coinPurse } from '../../models/money';
 
 interface ChooseClassProps {
   name: string;
@@ -23,6 +24,7 @@ interface ChooseClassProps {
 interface ChoiceContext {
   data: PlayerClass | undefined;
   bonus: AbilityScoreBonus | undefined;
+  money: CoinPurse;
 }
 
 const choiceMachine = Machine<ChoiceContext>({
@@ -31,6 +33,7 @@ const choiceMachine = Machine<ChoiceContext>({
   context: {
     data: undefined,
     bonus: undefined,
+    money: coinPurse({}),
   },
   states: {
     idle: {
@@ -46,9 +49,19 @@ const choiceMachine = Machine<ChoiceContext>({
     chooseBonus: {
       on: {
         BONUS_CHOSEN: {
-          target: 'chosen',
+          target: 'chooseMoney',
           actions: assign({
             bonus: (context, event) => (context.bonus = event.bonus),
+          }),
+        },
+      },
+    },
+    chooseMoney: {
+      on: {
+        MONEY_CHOSEN: {
+          target: 'chosen',
+          actions: assign({
+            money: (context, event) => (context.money = event.money),
           }),
         },
       },
@@ -112,9 +125,53 @@ function ChooseClass({
           </div>
         </Fragment>
       );
+    case 'chooseMoney':
+      return (
+        <Fragment>
+          <Heading lvl={2}>{name}</Heading>
+          <div tw="rounded shadow-lg p-4 mb-4">
+            <Heading lvl={3}>{state.context.data?.name}</Heading>
+            <div tw="mb-4">
+              {state.context.bonus?.tag}{' '}
+              <DisplayModifierComponent
+                value={state.context.bonus?.value ?? 0}
+              />
+            </div>
+            <p tw="mb-4">Starting gold:</p>
+
+            <button
+              css={[btnPrimary, tw`mr-4`]}
+              onClick={() =>
+                send('MONEY_CHOSEN', {
+                  money: state.context.data?.money.static.get(),
+                })
+              }
+            >
+              {state.context.data?.money.static.name}
+            </button>
+
+            <button
+              css={[btnPrimary, tw`mr-4`]}
+              onClick={() =>
+                send('MONEY_CHOSEN', {
+                  money: state.context.data?.money.random.get(),
+                })
+              }
+            >
+              {state.context.data?.money.random.name}
+            </button>
+          </div>
+        </Fragment>
+      );
     case 'chosen':
       return (
         <div tw="rounded shadow-lg p-4 mb-4">
+          {console.log(state.context)}
+          <div tw="mb-4">
+            {state.context.bonus?.tag}{' '}
+            <DisplayModifierComponent value={state.context.bonus?.value ?? 0} />
+          </div>
+          <div tw="mb-4">Starting gold: {state.context.money.gp} gp</div>
           <ClassCard playerClass={state.context.data as PlayerClass} />
         </div>
       );
