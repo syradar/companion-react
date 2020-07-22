@@ -22,18 +22,18 @@ function CreateCharacter() {
 
   const steps: ModifyCharacterStep[] = [...defaultModifyCharacterSteps]
 
+  const handleChoice = (data: {}) => console.log(data)
+
   return (
     <Fragment>
       <h1 css={[h1Style]}>Create Character</h1>
 
-      {steps.map(s => (
-        <CharacterModificationStep name={s.name} />
-      ))}
-
-      {playerRaces.map(pr => (
-        <div css={[tw`max-w-lg rounded overflow-hidden shadow-lg px-6 py-4`]}>
-          <h2>{pr.name}</h2>
-        </div>
+      {steps.map((s, index) => (
+        <CharacterModificationStep
+          key={index}
+          name={s.name}
+          onChoice={handleChoice}
+        />
       ))}
     </Fragment>
   )

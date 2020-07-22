@@ -5,10 +5,19 @@ import tw, { css } from 'twin.macro'
 import './App.css'
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom'
 import CreateCharacter from './CreateCharacter'
-import { h1Style } from './styles/globalStyles'
+import { h1Style, btnPrimary } from './styles/globalStyles'
+import { playSound } from './bard'
+import useSound from 'use-sound'
+//import levelUp from './320655__rhodesmas__level-up-01.ogg'
 
 function CharacterList() {
   let match = useRouteMatch()
+  const [playLevelUp] = useSound(
+    require('./320655__rhodesmas__level-up-01.ogg'),
+    {
+      volume: 0.5,
+    },
+  )
 
   return (
     <Switch>
@@ -19,7 +28,8 @@ function CharacterList() {
         <h1 css={[h1Style]}>Characters</h1>
         <Link
           to={`${match.url}/new`}
-          tw="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          css={[btnPrimary]}
+          onClick={() => playLevelUp()}
         >
           New character
         </Link>

@@ -40,7 +40,7 @@ const toggleCss = css`
 function RaceCard({ race }: RaceCardProps) {
   const [state, send] = useMachine(toggleMachine)
   return (
-    <div tw="rounded shadow-lg p-4 flex flex-col">
+    <div tw="flex flex-col">
       <div tw="flex justify-between ">
         <div tw="flex font-bold">{race.name}</div>
         <button
