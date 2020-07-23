@@ -3,6 +3,13 @@ import { AbilityScoreTag } from './abilityScores';
 import { coinPurse, CoinPurse } from './money';
 import { rollD6 } from '../utils/dice';
 
+export enum ArmorType {
+  None = 'None',
+  Light = 'Light',
+  Heavy = 'Heavy',
+  Shield = 'Shield',
+}
+
 export interface PlayerClass extends Nameable {
   bonus: AbilityScoreBonus[];
   backgroundsExample: string;
@@ -14,6 +21,13 @@ export interface PlayerClass extends Nameable {
     random: {
       name: string;
       get: () => CoinPurse;
+    };
+  };
+  armorTable: {
+    [T in ArmorType]: {
+      name: T;
+      baseAc: number;
+      attackPenalty: number;
     };
   };
 }
@@ -43,6 +57,28 @@ export const classes: PlayerClass[] = [
         get: () => coinPurse({ gp: rollD6() * 10 }),
       },
     },
+    armorTable: {
+      None: {
+        name: ArmorType.None,
+        baseAc: 10,
+        attackPenalty: 0,
+      },
+      Light: {
+        name: ArmorType.Light,
+        baseAc: 12,
+        attackPenalty: 0,
+      },
+      Heavy: {
+        name: ArmorType.Heavy,
+        baseAc: 13,
+        attackPenalty: -2,
+      },
+      Shield: {
+        name: ArmorType.Shield,
+        baseAc: 1,
+        attackPenalty: 0,
+      },
+    },
   },
   {
     name: 'Paladin',
@@ -66,6 +102,28 @@ export const classes: PlayerClass[] = [
       random: {
         name: '1d6 x 10 gp',
         get: () => coinPurse({ gp: rollD6() * 10 }),
+      },
+    },
+    armorTable: {
+      None: {
+        name: ArmorType.None,
+        baseAc: 10,
+        attackPenalty: 0,
+      },
+      Light: {
+        name: ArmorType.Light,
+        baseAc: 12,
+        attackPenalty: 0,
+      },
+      Heavy: {
+        name: ArmorType.Heavy,
+        baseAc: 16,
+        attackPenalty: 0,
+      },
+      Shield: {
+        name: ArmorType.Shield,
+        baseAc: 1,
+        attackPenalty: 0,
       },
     },
   },
