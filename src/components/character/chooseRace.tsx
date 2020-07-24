@@ -73,21 +73,23 @@ function ChooseRace({
   switch (state.value) {
     case 'idle':
       return (
-        <Fragment>
+        <div tw="mb-8">
           <Heading lvl={2}>{name}</Heading>
-          {playerRaces.map((pr, index) => (
-            <div key={index} tw="bg-white rounded-xl shadow-lg p-4 mb-4">
-              <RaceCard race={pr}></RaceCard>
+          <div tw="grid grid-flow-col gap-4 items-start">
+            {playerRaces.map((pr, index) => (
+              <div key={index} tw="bg-white rounded-xl shadow-lg p-4">
+                <RaceCard race={pr}></RaceCard>
 
-              <button
-                css={[btnPrimary]}
-                onClick={() => send('RACE_CHOSEN', { data: pr })}
-              >
-                Choose
-              </button>
-            </div>
-          ))}
-        </Fragment>
+                <button
+                  css={[btnPrimary]}
+                  onClick={() => send('RACE_CHOSEN', { data: pr })}
+                >
+                  Choose
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       );
     case 'chooseBonus':
       return (

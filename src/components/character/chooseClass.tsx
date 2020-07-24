@@ -87,21 +87,23 @@ function ChooseClass({
   switch (state.value) {
     case 'idle':
       return (
-        <Fragment>
+        <div tw="mb-8">
           <Heading lvl={2}>{name}</Heading>
-          {classes.map((c, index) => (
-            <div key={index} tw="bg-white rounded-xl shadow-lg p-4 mb-4">
-              <ClassCard playerClass={c} />
+          <div tw="grid grid-flow-col gap-4 items-start">
+            {classes.map((c, index) => (
+              <div key={index} tw="bg-white rounded-xl shadow-lg p-4 mb-4">
+                <ClassCard playerClass={c} />
 
-              <button
-                css={[btnPrimary]}
-                onClick={() => send('CLASS_CHOSEN', { data: c })}
-              >
-                Choose
-              </button>
-            </div>
-          ))}
-        </Fragment>
+                <button
+                  css={[btnPrimary]}
+                  onClick={() => send('CLASS_CHOSEN', { data: c })}
+                >
+                  Choose
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       );
     case 'chooseBonus':
       return (
