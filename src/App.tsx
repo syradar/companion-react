@@ -1,12 +1,12 @@
 /** @jsx jsx */
+import 'tailwindcss/dist/base.min.css';
+import '@tailwindcss/typography/dist/typography.min.css';
 import './App.css';
 import { AbilityScore } from './models/abilityScores';
 import CharacterList from './CharacterList';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css, styled } from 'twin.macro';
-import 'tailwindcss/dist/base.min.css';
-import '@tailwindcss/typography/dist/typography.min.css';
 import { jsx } from '@emotion/core';
 
 export enum Defense {

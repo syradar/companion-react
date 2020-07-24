@@ -3,3 +3,7 @@ body {
   background-color: #eceff4; /* nord6 */
   color: #2e3440; /* nord0 */
 }
+
+.prose {
+  color: #2e3440; /* nord0 */
+}
