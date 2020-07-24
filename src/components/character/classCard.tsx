@@ -11,7 +11,6 @@ import { h3Style, btnSecondary } from '../../styles/globalStyles';
 import { PlayerClass } from '../../models/classes';
 import Heading from '../heading';
 import { replaceZeroWithDash } from '../../functions';
-import '@tailwindcss/typography/dist/typography.min.css';
 
 interface ClassCardProps {
   playerClass: PlayerClass;

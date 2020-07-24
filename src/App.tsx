@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css, styled } from 'twin.macro';
 import 'tailwindcss/dist/base.min.css';
+import '@tailwindcss/typography/dist/typography.min.css';
 import { jsx } from '@emotion/core';
 
 export enum Defense {
@@ -37,7 +38,7 @@ function App() {
   return (
     <Router>
       <div css={['App']}>
-        <nav tw="flex items-center justify-between flex-wrap bg-gray-700 text-white p-6 shadow-lg">
+        <nav tw="flex items-center justify-between flex-wrap bg-nord1 text-white p-6 shadow-lg">
           <ul tw="flex items-center justify-between flex-wrap">
             <li tw="mr-4">
               <Link tw="text-xl font-bold hover:text-black" to="/">

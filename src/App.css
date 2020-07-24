@@ -1,4 +1,5 @@
 body {
   font-size: 100%;
-  background-color: #f7fafc;
+  background-color: #eceff4; /* nord6 */
+  color: #2e3440; /* nord0 */
 }
