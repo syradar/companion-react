@@ -15,22 +15,28 @@ import { PlayerClass } from './models/classes';
 import { pluck } from 'rambda';
 import { AbilityScoreTag } from './models/abilityScores';
 
+export interface AbilityScoreBonusDisplay {
+  tag: AbilityScoreTag;
+  value: number;
+  enabled: boolean;
+}
+
 function CreateCharacter() {
   //let match = useRouteMatch();
 
-  const handleChoice = (bonus: AbilityScoreBonus) => {
-    setAbilityScoreBonus(prev => {
+  const handleChoice = (bonus: AbilityScoreBonusDisplay) => {
+    setAbilityScoreBonusDisplay(prev => {
       const bonuses = [...prev, bonus];
-      setTakenAbilityScoreBonuses(_ => pluck('tag', bonuses));
+      setTakenAbilityScoreTag(_ => pluck('tag', bonuses));
       return bonuses;
     });
   };
 
-  const [abilityScoreBonus, setAbilityScoreBonus] = useState<
-    AbilityScoreBonus[]
+  const [abilityScoreBonusDisplay, setAbilityScoreBonusDisplay] = useState<
+    AbilityScoreBonusDisplay[]
   >([]);
 
-  const [takenAbilityScoreBonuses, setTakenAbilityScoreBonuses] = useState<
+  const [takenAbilityScoreTag, setTakenAbilityScoreTag] = useState<
     AbilityScoreTag[]
   >([]);
 
@@ -38,7 +44,7 @@ function CreateCharacter() {
     <Fragment>
       <h1 css={[h1Style]}>Create Character</h1>
       <Heading lvl={2}>Ability Score Bonus Choices</Heading>
-      {abilityScoreBonus.map((asb, index) => (
+      {abilityScoreBonusDisplay.map((asb, index) => (
         <div key={index}>
           {asb.tag} {asb.value}
         </div>
@@ -46,12 +52,12 @@ function CreateCharacter() {
       <ChooseRace
         name={'Choose race'}
         onChoice={handleChoice}
-        takenAbilityScoreBonuses={takenAbilityScoreBonuses}
+        takenAbilityScoreTag={takenAbilityScoreTag}
       />
       <ChooseClass
         name={'Choose class'}
         onChoice={handleChoice}
-        takenAbilityScoreBonuses={takenAbilityScoreBonuses}
+        takenAbilityScoreTag={takenAbilityScoreTag}
       />
     </Fragment>
   );

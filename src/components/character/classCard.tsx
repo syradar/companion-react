@@ -30,7 +30,7 @@ const toggleMachine = Machine({
 });
 
 const toggleCss = css`
-  /*max-height: 0;*/
+  max-height: 0;
   overflow: hidden;
   transition: max-height ease-out 150ms;
 

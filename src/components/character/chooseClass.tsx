@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css } from 'twin.macro';
-import { btnPrimary } from '../../styles/globalStyles';
+import { btnPrimary, btnDisabled } from '../../styles/globalStyles';
 import { Machine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { Fragment } from 'react';
@@ -14,16 +14,17 @@ import { AbilityScoreTag } from '../../models/abilityScores';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
 import { prop } from 'rambda';
 import { CoinPurse, coinPurse } from '../../models/money';
+import { AbilityScoreBonusDisplay } from '../../CreateCharacter';
 
 interface ChooseClassProps {
   name: string;
-  onChoice: (bonus: AbilityScoreBonus) => void;
-  takenAbilityScoreBonuses: AbilityScoreTag[];
+  onChoice: (bonus: AbilityScoreBonusDisplay) => void;
+  takenAbilityScoreTag: AbilityScoreTag[];
 }
 
 interface ChoiceContext {
   data: PlayerClass | undefined;
-  bonus: AbilityScoreBonus | undefined;
+  bonus: AbilityScoreBonusDisplay | undefined;
   money: CoinPurse;
 }
 
@@ -76,11 +77,11 @@ const choiceMachine = Machine<ChoiceContext>({
 function ChooseClass({
   name,
   onChoice,
-  takenAbilityScoreBonuses,
+  takenAbilityScoreTag,
 }: ChooseClassProps) {
   const [state, send] = useMachine(choiceMachine, {
     actions: {
-      notifyChoice: ctx => onChoice(ctx.bonus as AbilityScoreBonus),
+      notifyChoice: ctx => onChoice(ctx.bonus as AbilityScoreBonusDisplay),
     },
   });
 
@@ -114,12 +115,16 @@ function ChooseClass({
             <p tw="mb-4">Choose Ability Score Bonus:</p>
 
             {state.context.data?.bonus
-              .filter(b => !takenAbilityScoreBonuses.includes(b.tag))
+              .map(b => ({
+                ...b,
+                enabled: !takenAbilityScoreTag.includes(b.tag),
+              }))
               .map((b, index) => (
                 <button
-                  css={[btnPrimary, tw`mr-4`]}
+                  css={[b.enabled ? btnPrimary : btnDisabled, tw`mr-4`]}
                   key={index}
                   onClick={() => send('BONUS_CHOSEN', { bonus: b })}
+                  disabled={!b.enabled}
                 >
                   {b.tag} <DisplayModifierComponent value={b.value} />
                 </button>

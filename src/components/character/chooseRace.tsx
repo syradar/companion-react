@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css } from 'twin.macro';
-import { h2Style, btnPrimary } from '../../styles/globalStyles';
+import { h2Style, btnPrimary, btnDisabled } from '../../styles/globalStyles';
 import { playerRaces, Race, AbilityScoreBonus } from '../../models/races';
 import { Machine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
@@ -12,16 +12,17 @@ import Heading from '../heading';
 import Paragraphs from '../../Paragraphs';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
 import { AbilityScoreTag } from '../../models/abilityScores';
+import { AbilityScoreBonusDisplay } from '../../CreateCharacter';
 
 interface ChooseRaceProps {
   name: string;
-  onChoice: (bonus: AbilityScoreBonus) => void;
-  takenAbilityScoreBonuses: AbilityScoreTag[];
+  onChoice: (bonus: AbilityScoreBonusDisplay) => void;
+  takenAbilityScoreTag: AbilityScoreTag[];
 }
 
 interface ChoiceContext {
   data: Race | undefined;
-  bonus: AbilityScoreBonus | undefined;
+  bonus: AbilityScoreBonusDisplay | undefined;
 }
 
 const choiceMachine = Machine<ChoiceContext>({
@@ -59,14 +60,10 @@ const choiceMachine = Machine<ChoiceContext>({
   },
 });
 
-function ChooseRace({
-  name,
-  onChoice,
-  takenAbilityScoreBonuses,
-}: ChooseRaceProps) {
+function ChooseRace({ name, onChoice, takenAbilityScoreTag }: ChooseRaceProps) {
   const [state, send] = useMachine(choiceMachine, {
     actions: {
-      notifyChoice: ctx => onChoice(ctx.bonus as AbilityScoreBonus),
+      notifyChoice: ctx => onChoice(ctx.bonus as AbilityScoreBonusDisplay),
     },
   });
 
@@ -98,13 +95,14 @@ function ChooseRace({
           <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <p tw="mb-4">Choose Ability Score Bonus:</p>
-            {takenAbilityScoreBonuses.forEach(console.log)}
             {state.context.data?.bonus
-              .filter(b => !takenAbilityScoreBonuses.includes(b.tag))
-
+              .map(b => ({
+                ...b,
+                enabled: !takenAbilityScoreTag.includes(b.tag),
+              }))
               .map((b, index) => (
                 <button
-                  css={[btnPrimary, tw`mr-4`]}
+                  css={[b.enabled ? btnPrimary : btnDisabled, tw`mr-4`]}
                   key={index}
                   onClick={() => send('BONUS_CHOSEN', { bonus: b })}
                 >
