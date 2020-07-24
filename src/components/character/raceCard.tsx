@@ -64,7 +64,9 @@ function RaceCard({ race }: RaceCardProps) {
         {race.power.map((p, index) => (
           <Fragment key={index}>
             <h3 css={[h3Style]}>{p.name}</h3>
-            {p.description && <Paragraphs paragraphs={p.description} />}
+            <div className="prose">
+              {p.description && <Paragraphs paragraphs={p.description} />}
+            </div>
             <FeatListComponent feats={p.feats} />
           </Fragment>
         ))}
