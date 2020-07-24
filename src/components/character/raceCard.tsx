@@ -52,7 +52,7 @@ function RaceCard({ race }: RaceCardProps) {
       </div>
       <div aria-expanded={state.matches('active')} css={[toggleCss]}>
         <div tw="mb-4">
-          <h3 css={[h3Style]}>Racial Bonus</h3>
+          <Heading lvl={3}>Racial Bonus</Heading>
           <SeparatedList
             separator={' or '}
             values={race.bonus}
@@ -65,7 +65,7 @@ function RaceCard({ race }: RaceCardProps) {
         </div>
         {race.power.map((p, index) => (
           <div tw="mb-4" key={index}>
-            <h3 css={[h3Style]}>{p.name}</h3>
+            <Heading lvl={3}>{p.name}</Heading>
             <div tw="mb-4" className="prose">
               {p.description && <Paragraphs paragraphs={p.description} />}
             </div>
@@ -73,7 +73,7 @@ function RaceCard({ race }: RaceCardProps) {
           </div>
         ))}
 
-        <h3 css={[h3Style]}>Racial Feats</h3>
+        <Heading lvl={3}>Racial Feats</Heading>
         <FeatListComponent feats={race.feats} />
       </div>
     </div>

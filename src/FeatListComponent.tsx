@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.css';
 import { Feat } from './models/races';
 import FeatLevelComponent from './FeatLevelComponent';
+import Heading from './components/heading';
 
 interface FeatListProps {
   feats: Feat[];
@@ -9,11 +10,11 @@ interface FeatListProps {
 
 function FeatListComponent({ feats }: FeatListProps) {
   return (
-    <>
+    <Fragment>
       {feats.map((feat, index) => (
         <div key={index}>
-          <h4>{feat.name}</h4>
-          <p>{feat.description}</p>
+          <Heading lvl={4}>{feat.name}</Heading>
+          <p className="prose">{feat.description}</p>
 
           {feat.levels.map((l, index) => (
             <FeatLevelComponent
@@ -24,7 +25,7 @@ function FeatListComponent({ feats }: FeatListProps) {
           ))}
         </div>
       ))}
-    </>
+    </Fragment>
   );
 }
 

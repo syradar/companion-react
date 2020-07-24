@@ -75,7 +75,9 @@ function ChooseRace({ name, onChoice, takenAbilityScoreTag }: ChooseRaceProps) {
           <div tw="grid grid-flow-col gap-4 items-start">
             {playerRaces.map((pr, index) => (
               <div key={index} tw="bg-white rounded-xl shadow-lg p-4">
-                <RaceCard race={pr}></RaceCard>
+                <div tw="mb-4">
+                  <RaceCard race={pr}></RaceCard>
+                </div>
 
                 <button
                   css={[btnPrimary]}

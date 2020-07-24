@@ -42,7 +42,7 @@ function CreateCharacter() {
 
   return (
     <Fragment>
-      <h1 css={[h1Style]}>Create Character</h1>
+      <Heading lvl={1}>Create Character</Heading>
       <Heading lvl={2}>Ability Score Bonus Choices</Heading>
       {abilityScoreBonusDisplay.map((asb, index) => (
         <div key={index}>
