@@ -8,9 +8,10 @@ import { useMachine } from '@xstate/react';
 import SeparatedList from '../../SeparatedList';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
 import { h3Style, btnSecondary } from '../../styles/globalStyles';
-import { PlayerClass } from '../../models/classes';
+import { PlayerClass, armorTableToTable } from '../../models/classes';
 import Heading from '../heading';
 import { replaceZeroWithDash } from '../../functions';
+import Table from '../table';
 
 interface ClassCardProps {
   playerClass: PlayerClass;
@@ -65,55 +66,7 @@ function ClassCard({ playerClass }: ClassCardProps) {
         <Heading lvl={4}>Backgrounds</Heading>
         <p tw="mb-4">{playerClass.backgroundsExample}</p>
         <Heading lvl={4}>Armor</Heading>
-        <div className="prose" tw="mb-4">
-          <table>
-            <thead>
-              <tr>
-                <th>Armor Type</th>
-                <th tw="text-right">Base AC</th>
-                <th tw="text-right">Attack Penalty</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{playerClass.armorTable.None.name}</td>
-                <td tw="text-right">{playerClass.armorTable.None.baseAc}</td>
-                <td tw="text-right">
-                  {replaceZeroWithDash(
-                    playerClass.armorTable.None.attackPenalty,
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td>{playerClass.armorTable.Light.name}</td>
-                <td tw="text-right">{playerClass.armorTable.Light.baseAc}</td>
-                <td tw="text-right">
-                  {replaceZeroWithDash(
-                    playerClass.armorTable.Light.attackPenalty,
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td>{playerClass.armorTable.Heavy.name}</td>
-                <td tw="text-right">{playerClass.armorTable.Heavy.baseAc}</td>
-                <td tw="text-right">
-                  {replaceZeroWithDash(
-                    playerClass.armorTable.Heavy.attackPenalty,
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td>{playerClass.armorTable.Shield.name}</td>
-                <td tw="text-right">+{playerClass.armorTable.Shield.baseAc}</td>
-                <td tw="text-right">
-                  {replaceZeroWithDash(
-                    playerClass.armorTable.Shield.attackPenalty,
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <Table rows={armorTableToTable(playerClass.armorTable)}></Table>
       </div>
     </div>
   );

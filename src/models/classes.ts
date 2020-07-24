@@ -2,6 +2,8 @@ import { Nameable, AbilityScoreBonus } from './races';
 import { AbilityScoreTag } from './abilityScores';
 import { coinPurse, CoinPurse } from './money';
 import { rollD6, StaticDice } from '../utils/dice';
+import { TableRow, TableCell } from '../components/table';
+import { compose, head, identity, map, pluck, tap } from 'rambda';
 
 export enum ArmorType {
   None = 'None',
@@ -9,6 +11,42 @@ export enum ArmorType {
   Heavy = 'Heavy',
   Shield = 'Shield',
 }
+
+export const armorTableRow = <ArmorType>(
+  type: ArmorType,
+  baseAc: number,
+  attackPenalty: number,
+) => ({
+  type: {
+    name: 'Armor Type',
+    value: type,
+  },
+  baseAc: {
+    name: 'Base AC',
+    value: baseAc,
+  },
+  attackPenalty: {
+    name: 'Attack Penalty',
+    value: attackPenalty,
+  },
+});
+
+export type ArmorTable = {
+  [T in ArmorType]: {
+    type: {
+      name: string;
+      value: T;
+    };
+    baseAc: {
+      name: string;
+      value: number;
+    };
+    attackPenalty: {
+      name: string;
+      value: number;
+    };
+  };
+};
 
 export enum WeaponTypes {
   Small = 'Small',
@@ -53,13 +91,7 @@ export interface PlayerClass extends Nameable {
       get: () => CoinPurse;
     };
   };
-  armorTable: {
-    [T in ArmorType]: {
-      name: T;
-      baseAc: number;
-      attackPenalty: number;
-    };
-  };
+  armorTable: ArmorTable;
   meleeWeapons: MeleeWeapon[];
   rangedWeapons: RangedWeapon[];
 }
@@ -90,26 +122,10 @@ export const classes: PlayerClass[] = [
       },
     },
     armorTable: {
-      None: {
-        name: ArmorType.None,
-        baseAc: 10,
-        attackPenalty: 0,
-      },
-      Light: {
-        name: ArmorType.Light,
-        baseAc: 12,
-        attackPenalty: 0,
-      },
-      Heavy: {
-        name: ArmorType.Heavy,
-        baseAc: 13,
-        attackPenalty: -2,
-      },
-      Shield: {
-        name: ArmorType.Shield,
-        baseAc: 1,
-        attackPenalty: 0,
-      },
+      None: armorTableRow(ArmorType.None, 10, 0),
+      Light: armorTableRow(ArmorType.Light, 12, 0),
+      Heavy: armorTableRow(ArmorType.Heavy, 13, -2),
+      Shield: armorTableRow(ArmorType.Shield, 1, 0),
     },
     meleeWeapons: [],
     rangedWeapons: [],
@@ -139,28 +155,47 @@ export const classes: PlayerClass[] = [
       },
     },
     armorTable: {
-      None: {
-        name: ArmorType.None,
-        baseAc: 10,
-        attackPenalty: 0,
-      },
-      Light: {
-        name: ArmorType.Light,
-        baseAc: 12,
-        attackPenalty: 0,
-      },
-      Heavy: {
-        name: ArmorType.Heavy,
-        baseAc: 16,
-        attackPenalty: 0,
-      },
-      Shield: {
-        name: ArmorType.Shield,
-        baseAc: 1,
-        attackPenalty: 0,
-      },
+      None: armorTableRow(ArmorType.None, 10, 0),
+      Light: armorTableRow(ArmorType.Light, 12, 0),
+      Heavy: armorTableRow(ArmorType.Heavy, 16, 0),
+      Shield: armorTableRow(ArmorType.Shield, 1, 0),
     },
     meleeWeapons: [],
     rangedWeapons: [],
   },
 ];
+
+export const armorTableToTable = (armorTable: ArmorTable): TableRow[] => {
+  const headerRows = compose(
+    (cells: TableCell[]) => ({
+      isHeader: true,
+      cells,
+    }),
+    map(({ name }) => ({
+      value: name,
+      alignRight: name !== 'Armor Type',
+    })),
+    Object.values,
+    v => head(v),
+    Object.values,
+  );
+
+  const bodyRows = compose(
+    map((cells: TableCell[]) => ({
+      isHeader: false,
+      cells,
+    })),
+    map(
+      compose(
+        map(({ name, value }) => ({
+          value,
+          alignRight: name !== 'Armor Type',
+        })),
+        Object.values,
+      ),
+    ),
+    Object.values,
+  );
+
+  return [headerRows(armorTable), ...bodyRows(armorTable)];
+};
