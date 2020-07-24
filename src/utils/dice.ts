@@ -1,4 +1,4 @@
-interface DiceRoll {
+export interface StaticDice {
   amount: number;
   size: number;
 }
