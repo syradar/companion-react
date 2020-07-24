@@ -1,13 +1,43 @@
 import { Nameable, AbilityScoreBonus } from './races';
 import { AbilityScoreTag } from './abilityScores';
 import { coinPurse, CoinPurse } from './money';
-import { rollD6 } from '../utils/dice';
+import { rollD6, StaticDice } from '../utils/dice';
 
 export enum ArmorType {
   None = 'None',
   Light = 'Light',
   Heavy = 'Heavy',
   Shield = 'Shield',
+}
+
+export enum WeaponTypes {
+  Small = 'Small',
+  LightOrSimple = 'LightOrSimple',
+  HeavyOrMartial = 'HeavyOrMartial',
+}
+
+export enum MeleeWeaponCategories {
+  OneHanded = 'One Handed',
+  TwoHanded = 'Two Handed',
+}
+
+export enum RangedWeaponCategories {
+  Thrown = 'Thrown',
+  Crossbow = 'Crossbow',
+  Bow = 'Bow',
+}
+
+export interface ClassWeapon {
+  type: WeaponTypes;
+  damage: StaticDice;
+  attackModifier?: number;
+}
+
+export interface MeleeWeapon extends ClassWeapon {
+  category: MeleeWeaponCategories;
+}
+export interface RangedWeapon extends ClassWeapon {
+  category: RangedWeaponCategories;
 }
 
 export interface PlayerClass extends Nameable {
@@ -30,6 +60,8 @@ export interface PlayerClass extends Nameable {
       attackPenalty: number;
     };
   };
+  meleeWeapons: MeleeWeapon[];
+  rangedWeapons: RangedWeapon[];
 }
 
 export const classes: PlayerClass[] = [
@@ -79,6 +111,8 @@ export const classes: PlayerClass[] = [
         attackPenalty: 0,
       },
     },
+    meleeWeapons: [],
+    rangedWeapons: [],
   },
   {
     name: 'Paladin',
@@ -126,5 +160,7 @@ export const classes: PlayerClass[] = [
         attackPenalty: 0,
       },
     },
+    meleeWeapons: [],
+    rangedWeapons: [],
   },
 ];
