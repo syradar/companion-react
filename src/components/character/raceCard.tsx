@@ -51,24 +51,26 @@ function RaceCard({ race }: RaceCardProps) {
         </button>
       </div>
       <div aria-expanded={state.matches('active')} css={[toggleCss]}>
-        <h3 css={[h3Style]}>Racial Bonus</h3>
-        <SeparatedList
-          separator={' or '}
-          values={race.bonus}
-          display={v => (
-            <Fragment>
-              <DisplayModifierComponent value={v.value} /> {v.tag}
-            </Fragment>
-          )}
-        />
+        <div tw="mb-4">
+          <h3 css={[h3Style]}>Racial Bonus</h3>
+          <SeparatedList
+            separator={' or '}
+            values={race.bonus}
+            display={v => (
+              <Fragment>
+                <DisplayModifierComponent value={v.value} /> {v.tag}
+              </Fragment>
+            )}
+          />
+        </div>
         {race.power.map((p, index) => (
-          <Fragment key={index}>
+          <div tw="mb-4" key={index}>
             <h3 css={[h3Style]}>{p.name}</h3>
-            <div className="prose">
+            <div tw="mb-4" className="prose">
               {p.description && <Paragraphs paragraphs={p.description} />}
             </div>
             <FeatListComponent feats={p.feats} />
-          </Fragment>
+          </div>
         ))}
 
         <h3 css={[h3Style]}>Racial Feats</h3>
