@@ -6,7 +6,7 @@ import { FunctionComponent } from 'react';
 
 export interface TableCell {
   value: string | number;
-  alignRight: boolean;
+  alignRight?: boolean;
 }
 
 export interface TableRow {
@@ -27,8 +27,10 @@ export const Table: FunctionComponent<TableProps> = ({ rows }: TableProps) => {
             {rows
               .filter(r => r.isHeader)
               .map(r =>
-                r.cells.map(c => (
-                  <th css={[c.alignRight && tw`text-right`]}>{c.value}</th>
+                r.cells.map((c, index) => (
+                  <th key={index} css={[c.alignRight && tw`text-right`]}>
+                    {c.value}
+                  </th>
                 )),
               )}
           </tr>
@@ -36,10 +38,12 @@ export const Table: FunctionComponent<TableProps> = ({ rows }: TableProps) => {
         <tbody>
           {rows
             .filter(r => !r.isHeader)
-            .map(r => (
-              <tr>
-                {r.cells.map(c => (
-                  <td css={[c.alignRight && tw`text-right`]}>{c.value}</td>
+            .map((r, rowIndex) => (
+              <tr key={rowIndex}>
+                {r.cells.map((c, index) => (
+                  <td key={index} css={[c.alignRight && tw`text-right`]}>
+                    {c.value}
+                  </td>
                 ))}
               </tr>
             ))}

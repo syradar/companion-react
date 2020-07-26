@@ -8,7 +8,12 @@ import { useMachine } from '@xstate/react';
 import SeparatedList from '../../SeparatedList';
 import DisplayModifierComponent from '../../DisplayModifierComponent';
 import { h3Style, btnSecondary } from '../../styles/globalStyles';
-import { PlayerClass, armorTableToTable } from '../../models/classes';
+import {
+  PlayerClass,
+  armorTableToTable,
+  meleeWeaponsToTable,
+  rangedWeaponsToTable,
+} from '../../models/classes';
 import Heading from '../heading';
 import { replaceZeroWithDash } from '../../functions';
 import Table from '../table';
@@ -31,7 +36,7 @@ const toggleMachine = Machine({
 });
 
 const toggleCss = css`
-  max-height: 0;
+  /*max-height: 0;*/
   overflow: hidden;
   transition: max-height ease-out 150ms;
 
@@ -67,6 +72,10 @@ function ClassCard({ playerClass }: ClassCardProps) {
         <p tw="mb-4">{playerClass.backgroundsExample}</p>
         <Heading lvl={4}>Armor</Heading>
         <Table rows={armorTableToTable(playerClass.armorTable)}></Table>
+        <Heading lvl={4}>Melee Weapons</Heading>
+        <Table rows={meleeWeaponsToTable(playerClass.meleeWeapons)}></Table>
+        <Heading lvl={4}>Ranged Weapons</Heading>
+        <Table rows={rangedWeaponsToTable(playerClass.rangedWeapons)}></Table>
       </div>
     </div>
   );

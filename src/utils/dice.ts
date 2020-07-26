@@ -1,7 +1,15 @@
 export interface StaticDice {
   amount: number;
-  size: number;
+  sides: number;
 }
+
+export const createStaticDice = (
+  amount: number,
+  sides: number,
+): StaticDice => ({
+  amount,
+  sides,
+});
 
 export const rollD = (sides: number) => Math.floor(Math.random() * sides) + 1;
 
