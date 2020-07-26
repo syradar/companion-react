@@ -6,7 +6,7 @@ import { jsx } from '@emotion/core';
 
 import './App.css';
 //import { useRouteMatch } from 'react-router-dom';
-import { h1Style } from './styles/globalStyles';
+import { h1Style, cardStyle } from './styles/globalStyles';
 import ChooseRace from './components/character/chooseRace';
 import ChooseClass from './components/character/chooseClass';
 import { AbilityScoreBonus, Race } from './models/races';
@@ -14,11 +14,18 @@ import Heading from './components/heading';
 import { PlayerClass } from './models/classes';
 import { pluck } from 'rambda';
 import { AbilityScoreTag } from './models/abilityScores';
+import Button from './components/button';
 
 export interface AbilityScoreBonusDisplay {
   tag: AbilityScoreTag;
   value: number;
   enabled: boolean;
+}
+
+export enum AbilitScoreMethods {
+  PointBuy = `Point Buy`,
+  Roll = `Roll'em`,
+  Array = `Array`,
 }
 
 function CreateCharacter() {
@@ -40,6 +47,13 @@ function CreateCharacter() {
     AbilityScoreTag[]
   >([]);
 
+  const [abilitScoreMethod, setAbilitScoreMethod] = useState<
+    AbilitScoreMethods
+  >();
+
+  const chooseAbilityScoreMethod = (absm: AbilitScoreMethods) => (_: any) =>
+    setAbilitScoreMethod(() => absm);
+
   return (
     <Fragment>
       <Heading lvl={1}>Create Character</Heading>
@@ -59,6 +73,22 @@ function CreateCharacter() {
         onChoice={handleChoice}
         takenAbilityScoreTag={takenAbilityScoreTag}
       />
+      <div>
+        <Heading lvl={2}>Determine Ability Scores</Heading>
+
+        <div css={[cardStyle, tw`mb-4`]}>
+          {Object.values(AbilitScoreMethods).map((value, index) => (
+            <Button
+              key={index}
+              style={tw`mr-4`}
+              onClick={chooseAbilityScoreMethod(value)}
+            >
+              {value}
+            </Button>
+          ))}
+          <Heading lvl={3}>{abilitScoreMethod}</Heading>
+        </div>
+      </div>
     </Fragment>
   );
 }
