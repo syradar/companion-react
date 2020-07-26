@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import tw, { css } from 'twin.macro';
-import { btnPrimary, btnDisabled } from '../../styles/globalStyles';
+import { btnPrimary, btnDisabled, cardStyle } from '../../styles/globalStyles';
 import { Machine, assign } from 'xstate';
 import { useMachine } from '@xstate/react';
 import { Fragment } from 'react';
@@ -110,7 +110,7 @@ function ChooseClass({
       return (
         <Fragment>
           <Heading lvl={2}>{name}</Heading>
-          <div tw="bg-white rounded-xl shadow-lg p-4 mb-4">
+          <div css={[cardStyle, tw`mb-4`]}>
             <Heading lvl={3}>{state.context.data?.name}</Heading>
             <p tw="mb-4">Choose Ability Score Bonus:</p>
 

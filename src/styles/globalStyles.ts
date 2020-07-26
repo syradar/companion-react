@@ -10,3 +10,5 @@ const buttonGeneral =
 export const btnPrimary = tw`bg-nord8 hover:bg-nord8-darker hover:transform hover:transform shadow-md hover:shadow-lg text-white ${buttonGeneral}`;
 export const btnSecondary = tw`bg-nord5 hover:bg-nord4 ${buttonGeneral}`;
 export const btnDisabled = tw`bg-nord5 cursor-not-allowed ${buttonGeneral}`;
+
+export const cardStyle = tw`bg-white rounded-xl shadow-lg p-4`;
